@@ -1,0 +1,179 @@
+<!-- views/success.ejs -->
+<!doctype html>
+<html>
+  <head>
+    <title>Google SignIn</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+      <style>
+
+          .bgIMG {
+            background-image: url("https://cdn.pixabay.com/photo/2021/11/21/21/14/mountain-6815304_960_720.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%; 
+            position: fixed;
+            filter: blur(5px);
+          }
+          .bodymain{
+            padding-top: 70px;
+          }
+          label {
+              display: block;
+              font: 1rem 'Fira Sans', sans-serif;
+          }
+
+          input,
+          label {
+              margin: .4rem 0;
+          }
+          .button {
+            background-color: #3a963d; /* Green */
+            border: none;
+            color: rgb(255, 234, 234);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+          }
+          .button:hover{
+            background-color: #1a501c;
+            color: white;
+          }
+
+      </style>
+  </head>
+  <body>
+      <div class="bgIMG"></div>
+      <div class="row bodymain">
+        <div class="col-3">
+          <div class="card"  style="margin-left:40px;box-shadow: grey 2px 2px;width: 18rem;">
+            <div class="card-header">
+             <strong><h4 class="text-primary text-center"><span class="fa fa-user"></span> <%= name.givenName%>'s Dashboard</h4></strong>
+           </div> 
+            
+             <div class="row card-body" style="background-size:contain;padding:0;margin-left: 0px;margin-right: 0px;">
+              
+                <div class="col" style="padding-right: 0;">
+                  
+                </div>
+                <div class="col" style="padding-right: 0;padding-left: 0;">
+                  <img style="border-radius: 50%;" alt="Card image cap" src="<%=photos[0].value%>">
+                </div>
+                <div class="col" style="padding-left: 0;">
+                  
+                </div>
+              
+
+             </div>
+           
+             <div class="card-footer">
+               <p class="card-text">
+                 <strong>Email</strong>: <%= emails[0].value %><br>
+                 <strong>Name</strong>: <%= displayName %>
+             </p>
+             </div>
+             
+           </div>
+        </div>
+        <div class="col-9 text-center">
+          
+            <label for="start"><b>Pick Date of Appointment:</b></label>
+            <input type="hidden" class="descBox" id="test" name="summary">
+            <input onchange="updateDate(this.value)" type="date" id="start" name="date"><br/>
+            
+            <br/>
+            <div class="button" onclick="getDay(document.getElementById('start').value)">Show Available Slots</div>
+          
+            <div id="day" style="background-color: white;color: black;"></div>
+        </div>
+      </div>
+    <script>
+     var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if (dd < 10) {
+        dd = '0' + dd;
+      }
+
+      if (mm < 10) {
+        mm = '0' + mm;
+      } 
+          
+      today = yyyy + '-' + mm + '-' + dd;
+      document.getElementById("start").setAttribute("min", today);
+      document.getElementById("start").setAttribute("value", today);
+
+      function updateDate(val){ 
+        document.getElementsByName("year")[0].value = val.split('-')[0];
+        document.getElementsByName("month")[0].value = val.split('-')[1];
+        document.getElementsByName("day")[0].value = val.split('-')[2];
+        document.getElementById("start").setAttribute("value", val);
+        
+        yyyy=document.getElementsByName("year")[0].value;
+        mm = document.getElementsByName("month")[0].value;
+        dd = document.getElementsByName("day")[0].value;
+      }
+      function dispDesc(id){
+        var all = document.getElementsByClassName("descBox");
+        for (var i = 0; i < all.length; i++) {
+          all[i].style.display="none";
+          all[i].removeAttribute("name");;
+        }
+        document.getElementById(`timeS-${id}`).style.display= "block";
+        document.getElementById(`timeS-${id}`).name= "summary";
+        document.getElementsByName("hour")[0].value = document.getElementsByName("summary")[0].id.replace("timeS-","").replace('T','').replace('Z','').replace('T','').replace('Z','').split('-')[0].split(':')[0];
+        document.getElementsByName("minute")[0].value = document.getElementsByName("summary")[0].id.replace("timeS-","").replace('T','').replace('Z','').replace('T','').replace('Z','').split('-')[0].split(':')[1];
+         
+      }
+      function getDay(date,year,month){
+        console.log(date);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState === XMLHttpRequest.DONE) {
+              // Typical action to be performed when the document is ready:
+              const res = JSON.parse(xhttp.responseText)
+              var fdata =``
+              Object.entries(res).forEach((entry) => {
+              const [key, value] = entry;
+              if(key=="timeslots"){
+                Object.entries(res[key]).forEach(
+               (timeS)=>{
+                  fdata+=`
+                  <li style="list-style:none"><input onclick="dispDesc(this.id)" name="timeSlot" type="radio" id=${timeS[1]["startTime"]}-${timeS[1]["endTime"]}><span>${timeS[1]["startTime"].replace("T",'').replace("Z",'')} - ${timeS[1]["endTime"].replace("T",'').replace("Z",'')}</span></li>
+                  <input type="text" name="summary" style="display:none" class="descBox" id="timeS-${timeS[1]["startTime"]}-${timeS[1]["endTime"]}">
+                  
+                  `
+                  
+               } 
+              )
+              }
+            });
+            console.log(fdata);
+              document.getElementById("day").innerHTML = `<form action="/appointment/book" method="GET"> 
+                <ul>${fdata}</ul>
+                <input type="text" name="summary" style="display:none" class="descBox" id="timeS-T09:00:00.000Z-T09:50:00.000Z">
+                <input type="hidden" name="year" value=${document.getElementById("start").value.split('-')[0]}>
+                <input type="hidden" name="month" value=${document.getElementById("start").value.split('-')[1]}>
+                <input type="hidden" name="day" value=${document.getElementById("start").value.split('-')[2]}>
+                <input type="hidden" name="hour" value=${document.getElementsByName("summary")[0].id.replace("timeS-","").replace('T','').replace('Z','').replace('T','').replace('Z','').split('-')[0].split(':')[0]}>
+                <input type="hidden" name="minute" value=${document.getElementsByName("summary")[0].id.replace("timeS-","").replace('T','').replace('Z','').replace('T','').replace('Z','').split('-')[0].split(':')[1]}>
+                <input type="submit" value="BOOK">
+                </form>`;
+            }
+        };
+        xhttp.open("GET", `/available/timeslots?year=${yyyy}&month=${mm}&day=${dd}`, true);
+        xhttp.send();
+      }
+    </script>
+  </body>
+</html> 

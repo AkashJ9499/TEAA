@@ -1,0 +1,64 @@
+{
+    "timeslots": [
+      {
+        "startTime": "T09:00:00Z",
+        "endTime": "T09:50:00Z"
+      },
+      {
+        "startTime": "T10:00:00Z",
+        "endTime": "T10:50:00Z"
+      },
+      {
+        "startTime": "T11:00:00Z",
+        "endTime": "T11:50:00Z"
+      },
+      {
+        "startTime": "T12:00:00Z",
+        "endTime": "T12:50:00Z"
+      },
+      {
+        "startTime": "T13:00:00Z",
+        "endTime": "T13:50:00Z"
+      },
+      {
+        "startTime": "T14:00:00Z",
+        "endTime": "T14:50:00Z"
+      },
+      {
+        "startTime": "T15:00:00Z",
+        "endTime": "T15:50:00Z"
+      },
+      {
+        "startTime": "T16:00:00Z",
+        "endTime": "T16:50:00Z"
+      },
+      {
+        "startTime": "T17:00:00Z",
+        "endTime": "T17:50:00Z"
+      },
+      {
+        "startTime": "T18:00:00Z",
+        "endTime": "T18:50:00Z"
+      },
+      {
+        "startTime": "T19:00:00Z",
+        "endTime": "T19:50:00Z"
+      },
+      {
+        "startTime": "T20:00:00Z",
+        "endTime": "T20:50:00Z"
+      },
+      {
+        "startTime": "T21:00:00Z",
+        "endTime": "T21:50:00Z"
+      },
+      {
+        "startTime": "T22:00:00Z",
+        "endTime": "T22:50:00Z"
+      },
+      {
+        "startTime": "T23:00:00Z",
+        "endTime": "T23:50:00Z"
+      }
+    ]
+  }
